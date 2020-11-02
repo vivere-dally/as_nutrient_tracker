@@ -1,24 +1,11 @@
 package ro.ubbcluj.cs.sbuciu.nutrient_tracker.service
 
-import com.google.gson.GsonBuilder
-import ro.ubbcluj.cs.sbuciu.nutrient_tracker.config.Environment
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import ro.ubbcluj.cs.sbuciu.nutrient_tracker.domain.model.Entity
 
-object Api {
-    private val client: OkHttpClient = OkHttpClient
-        .Builder()
-        .build()
-
-    private var gson = GsonBuilder()
-        .setLenient()
-        .create()
-
-    val retrofit = Retrofit
-        .Builder()
-        .baseUrl(Environment.URL_API)
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .client(client)
-        .build()
+interface Api<E : Entity<T>, T> {
+    suspend fun save(entity: E): E
+    suspend fun update(entityId: T, entity: E): E
+    suspend fun delete(entityId: T): E
+    fun get(entityId: T): E
+    fun get(): List<E>
 }

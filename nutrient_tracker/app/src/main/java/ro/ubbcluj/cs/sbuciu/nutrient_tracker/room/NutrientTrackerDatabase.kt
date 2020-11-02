@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,8 +13,10 @@ import ro.ubbcluj.cs.sbuciu.nutrient_tracker.dao.FoodDao
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker.dao.MealDao
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker.domain.model.Food
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker.domain.model.Meal
+import ro.ubbcluj.cs.sbuciu.nutrient_tracker.domain.model.converter.LongArrayStringConverter
 
-@Database(entities = [Food::class, Meal::class], version = 1)
+@Database(entities = [Food::class, Meal::class], version = 1, exportSchema = false)
+@TypeConverters(LongArrayStringConverter::class)
 abstract class NutrientTrackerDatabase : RoomDatabase() {
     abstract fun foodDao(): FoodDao
     abstract fun mealDao(): MealDao
@@ -45,8 +48,8 @@ abstract class NutrientTrackerDatabase : RoomDatabase() {
                 super.onOpen(db)
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
-                        database.foodDao().deleteFoods()
-                        database.mealDao().deleteMeals()
+                        database.foodDao().delete()
+                        database.mealDao().delete()
                     }
                 }
             }

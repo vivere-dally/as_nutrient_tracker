@@ -1,27 +1,33 @@
 package ro.ubbcluj.cs.sbuciu.nutrient_tracker.repository
 
-import ro.ubbcluj.cs.sbuciu.nutrient_tracker.dao.FoodDao
+import androidx.lifecycle.LiveData
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker.dao.MealDao
+import ro.ubbcluj.cs.sbuciu.nutrient_tracker.domain.model.Meal
+import ro.ubbcluj.cs.sbuciu.nutrient_tracker.service.Api
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker.service.MealApi
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker.utils.Result
 import java.lang.Exception
 
-class MealRepository(private val mealDao: MealDao) {
-    val meals = mealDao.getMeals()
+class MealRepository(dao: MealDao, api: MealApi.Service) :
+    Repository<Meal, Long>(dao, api as Api<Meal, Long>) {
 
-    suspend fun refresh(): Result<Boolean> {
+    override suspend fun delete(entityId: Long): Result<Meal> {
         return try {
-            val meals = MealApi.service.getMeals()
-            for (meal in meals) {
-                mealDao.saveMeal(meal)
-            }
-
-            Result.Success(true)
+            (dao as MealDao).delete(entityId)
+            Result.Success(
+                api.delete(entityId)
+            )
         } catch (e: Exception) {
             Result.Error(e)
         }
     }
 
-    //TODO generify repositories, apis and daos
-//    suspend fun get
+    override fun get(entityId: Long): LiveData<Meal> {
+        return (dao as MealDao).get(entityId)
+    }
+
+    override fun get(): LiveData<List<Meal>> {
+        return (dao as MealDao).get()
+    }
+
 }

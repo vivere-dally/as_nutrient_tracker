@@ -4,23 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker.domain.model.Food
 
-@Dao
-interface FoodDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveFood(food: Food)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateFood(food: Food)
-
-    @Query("DELETE FROM foods WHERE id=:foodId")
-    suspend fun deleteFood(foodId: Long)
+@androidx.room.Dao
+abstract class FoodDao : Dao<Food, Long> {
+    @Query("DELETE FROM foods where id=:entityId")
+    abstract suspend fun delete(entityId: Long)
 
     @Query("DELETE FROM foods")
-    suspend fun deleteFoods()
+    abstract suspend fun delete()
 
-    @Query("SELECT * FROM foods WHERE id=:foodId")
-    fun getFoodById(foodId: Long) : LiveData<Food>
+    @Query("SELECT * FROM foods WHERE id=:entityId")
+    abstract fun get(entityId: Long): LiveData<Food>
 
     @Query("SELECT * FROM foods")
-    fun getFoods(): LiveData<List<Food>>
+    abstract fun get(): LiveData<List<Food>>
 }

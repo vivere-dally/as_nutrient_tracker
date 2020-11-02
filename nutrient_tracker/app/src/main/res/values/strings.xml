@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">nutrient_tracker</string>
+    <string name="fragment_meal_list">Meal list fragment</string>
+    <string name="menu_main_action_settings">Settings</string>
 </resources>
