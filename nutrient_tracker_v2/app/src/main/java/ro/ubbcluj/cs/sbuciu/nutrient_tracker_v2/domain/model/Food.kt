@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.domain.model.converter.LongArrayStringConverter
+import java.io.Serializable
 
 @Entity(tableName = "foods")
 class Food(
@@ -24,4 +25,8 @@ class Food(
     @TypeConverters(LongArrayStringConverter::class)
     @ColumnInfo(name = "nutrientIds")
     var nutrientIds: LongArray?
-) : BaseEntity<Long>
+) : BaseEntity<Long>, Serializable {
+    override fun toString(): String {
+        return name ?: "MISSING NAME";
+    }
+}

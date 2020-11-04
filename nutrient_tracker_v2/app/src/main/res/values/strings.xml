@@ -7,9 +7,11 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="meal_list_fragment_label">Meal List Fragment</string>
+    <string name="meal_list_item_edit_fragment_label">Meal List Item Edit Fragment</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="adapter.mla_foods_are_loading">Foods are loading…</string>
 </resources>

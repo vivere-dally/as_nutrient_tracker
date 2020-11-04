@@ -23,8 +23,19 @@
         tools:layout="@layout/meal_list_fragment">
 
         <action
-            android:id="@+id/action_MealListFragment_to_SecondFragment"
-            app:destination="@+id/SecondFragment" />
+            android:id="@+id/action_MealListFragment_to_MealListItemEditFragment"
+            app:destination="@+id/MealListItemEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/MealListItemEditFragment"
+        android:name="ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.MealListItemEdit"
+        android:label="@string/meal_list_item_edit_fragment_label"
+        tools:layout="@layout/meal_list_item_edit_fragment">
+        <action
+            android:id="@+id/action_MealListItemEditFragment_to_MealListFragment"
+            app:destination="@+id/MealListFragment" />
+
     </fragment>
 
     <fragment

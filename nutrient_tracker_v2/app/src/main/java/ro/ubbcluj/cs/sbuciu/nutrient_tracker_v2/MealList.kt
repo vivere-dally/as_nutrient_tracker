@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
+import android.widget.Button
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.meal_list_fragment.*
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.adapter.MealListAdapter
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.utils.TAG
@@ -32,6 +34,10 @@ class MealList : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        mlf_fab.setOnClickListener {
+            Log.v(TAG, "onActivityCreated - fab - add_new_meal")
+            findNavController().navigate(R.id.action_MealListFragment_to_MealListItemEditFragment)
+        }
         onActivityCreatedSetup()
     }
 
@@ -39,6 +45,12 @@ class MealList : Fragment() {
         adapter = MealListAdapter(this)
         viewModel = ViewModelProviders.of(this).get(MealListViewModel::class.java)
         mlf_recycler_view.adapter = adapter
+
+        // Observe foods
+        viewModel.foods.observe(viewLifecycleOwner, {
+            Log.v(TAG, "onActivityCreatedSetup - foods - update")
+            adapter.foods = it
+        })
 
         // Observe meals
         viewModel.meals.observe(viewLifecycleOwner, {

@@ -20,11 +20,11 @@ object FoodApi {
 
         @Headers("Content-Type: application/json")
         @GET("food/{id}")
-        fun get(@Path("id") entityId: Long): Food
+        suspend fun get(@Path("id") entityId: Long): Food
 
         @Headers("Content-Type: application/json")
         @GET("food")
-        fun get(): List<Food>
+        suspend fun get(): List<Food>
     }
 
     private val foodApi: Service = RetrofitConfig.retrofit.create(Service::class.java)
