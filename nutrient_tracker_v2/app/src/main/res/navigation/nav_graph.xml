@@ -3,49 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
-
-    <fragment
-        android:id="@+id/FirstFragment"
-        android:name="ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_MealListFragment"
-            app:destination="@id/MealListFragment" />
-    </fragment>
+    app:startDestination="@id/MealListFragment">
 
     <fragment
         android:id="@+id/MealListFragment"
-        android:name="ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.MealList"
+        android:name="ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.meallist.MealListFragment"
         android:label="@string/meal_list_fragment_label"
         tools:layout="@layout/meal_list_fragment">
 
         <action
-            android:id="@+id/action_MealListFragment_to_MealListItemEditFragment"
-            app:destination="@+id/MealListItemEditFragment" />
+            android:id="@+id/action_MealListFragment_to_MealEditFragment"
+            app:destination="@+id/MealEditFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/MealListItemEditFragment"
-        android:name="ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.MealListItemEdit"
+        android:id="@+id/MealEditFragment"
+        android:name="ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.mealedit.MealEditFragment"
         android:label="@string/meal_list_item_edit_fragment_label"
-        tools:layout="@layout/meal_list_item_edit_fragment">
+        tools:layout="@layout/meal_edit_fragment">
         <action
-            android:id="@+id/action_MealListItemEditFragment_to_MealListFragment"
+            android:id="@+id/action_MealEditFragment_to_MealListFragment"
             app:destination="@+id/MealListFragment" />
 
-    </fragment>
-
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
