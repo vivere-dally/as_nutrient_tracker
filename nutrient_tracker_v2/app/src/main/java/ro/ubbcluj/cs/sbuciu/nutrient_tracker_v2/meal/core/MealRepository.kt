@@ -53,11 +53,11 @@ class MealRepository(
     }
 
     private suspend fun handlePayload(payload: ActionPayload<Meal, Long>) {
-        val meal: Meal? = payload.data
+        val meal: Meal = payload.data
         when (payload.actionType) {
-            ActionType.SAVE -> _dao.save(meal!!)
-            ActionType.UPDATE -> _dao.update(meal!!)
-            ActionType.DELETE -> _dao.delete(meal!!)
+            ActionType.SAVE -> _dao.save(meal)
+            ActionType.UPDATE -> _dao.update(meal)
+            ActionType.DELETE -> _dao.delete(meal)
         }
     }
 }

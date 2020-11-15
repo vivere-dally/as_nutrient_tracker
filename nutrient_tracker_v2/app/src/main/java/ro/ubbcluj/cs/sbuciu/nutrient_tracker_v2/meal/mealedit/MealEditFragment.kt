@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.meal_edit_fragment.*
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.R
+import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core.Moment
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core.TAG
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.Meal
 import java.time.Instant
@@ -106,11 +107,11 @@ class MealEditFragment : Fragment() {
         mef_number_picker_day.minValue = 1
         mef_number_picker_day.maxValue = 31
         mef_number_picker_day.wrapSelectorWheel = true
-        mef_number_picker_hour.minValue = 1
-        mef_number_picker_hour.maxValue = 24
+        mef_number_picker_hour.minValue = 0
+        mef_number_picker_hour.maxValue = 23
         mef_number_picker_hour.wrapSelectorWheel = true
-        mef_number_picker_minute.minValue = 1
-        mef_number_picker_minute.maxValue = 60
+        mef_number_picker_minute.minValue = 0
+        mef_number_picker_minute.maxValue = 59
         mef_number_picker_minute.wrapSelectorWheel = true
 
         val mi = mealId
@@ -145,7 +146,7 @@ class MealEditFragment : Fragment() {
             id = mealId,
             comment = mef_edit_text_comment.text.toString(),
             date = date.toString(),
-            dateEpoch = date.toEpochSecond(ZoneOffset.UTC),
+            dateEpoch = null,
             eaten = mef_switch_eaten.isChecked,
             foods = mef_edit_text_foods.text.toString(),
             price = mef_edit_text_price.text.toString().toFloat()

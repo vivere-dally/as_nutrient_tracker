@@ -9,12 +9,14 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 object Environment {
     var URL_API: String = "http://192.168.100.3:8080/nutrientTracker/"
     var WS_URL_API: String = "ws://192.168.100.3:8080/nutrientTracker/"
-    var DATE_FORMAT_API: String = "YYYY-MM-DDTHH:mm:ss.sssZ"
 }
 
 object Moment {
@@ -23,7 +25,7 @@ object Moment {
 
     fun fromNow(epoch: Long): CharSequence {
         return DateUtils.getRelativeTimeSpanString(
-            epoch * 1000 - 120 * 60000,
+            epoch * 1000,
             System.currentTimeMillis(),
             DateUtils.SECOND_IN_MILLIS
         )
@@ -48,15 +50,6 @@ sealed class BaseResult<out R> {
         }
     }
 }
-
-val BaseResult<*>.succeeded
-    get() = this is BaseResult.Success && data != null
-
-val BaseResult<*>.failed
-    get() = this is BaseResult.Error
-
-val BaseResult<*>.loading
-    get() = this is BaseResult.Loading
 
 val Any.TAG: String
     get() {
