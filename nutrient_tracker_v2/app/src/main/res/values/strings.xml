@@ -6,6 +6,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="login_fragment_label">Login Fragment</string>
     <string name="meal_list_fragment_label">Meal List Fragment</string>
     <string name="meal_list_item_edit_fragment_label">Meal List Item Edit Fragment</string>
 
@@ -15,7 +16,16 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="adapter.mla_foods_are_loading">Foods are loading…</string>
     <string name="iseaten">IsEaten</string>
-    <string name="enter_price">Enter price...</string>
-    <string name="add_foods">Add foods...</string>
-    <string name="add_comments">Add comments...</string>
+    <string name="enter_price">Enter price…</string>
+    <string name="add_foods">Add foods…</string>
+    <string name="add_comments">Add comments…</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

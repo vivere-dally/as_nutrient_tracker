@@ -3,7 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/MealListFragment">
+    app:startDestination="@id/LoginFragment">
+
+    <fragment
+        android:id="@+id/LoginFragment"
+        android:name="ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core.authentication.login.LoginFragment"
+        android:label="@string/login_fragment_label"
+        tools:layout="@layout/login_fragment">
+        <action
+            android:id="@+id/action_LoginFragment_to_MealListFragment"
+            app:destination="@+id/MealListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/MealListFragment"

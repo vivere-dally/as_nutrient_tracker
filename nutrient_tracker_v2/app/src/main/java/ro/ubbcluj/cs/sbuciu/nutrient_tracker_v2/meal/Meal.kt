@@ -27,5 +27,8 @@ class Meal(
     var eaten: Boolean?,
 
     @ColumnInfo(name = "price")
-    var price: Float?
+    var price: Float?,
+
+    @ColumnInfo(name = "userId")
+    var userId: Long?
 ) : BaseEntity<Long>

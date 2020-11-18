@@ -10,13 +10,13 @@ import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.Meal
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.core.MealApi
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.core.MealRepository
 
-class MealListViewModel(application: Application) : BaseViewModel(application) {
+class MealListViewModel(application: Application, userId: Long) : BaseViewModel(application) {
     private val mealRepository: MealRepository
     val meals: LiveData<List<Meal>>
 
     init {
         val mealDao = NutrientTrackerDatabase.getDatabase(application, viewModelScope).mealDao()
-        mealRepository = MealRepository(mealDao, MealApi)
+        mealRepository = MealRepository(mealDao, MealApi, userId)
         meals = mealRepository.get()
     }
 

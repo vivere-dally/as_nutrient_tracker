@@ -13,7 +13,8 @@ import java.lang.Exception
 
 class MealRepository(
     private val dao: MealDao,
-    private val api: MealApi
+    private val api: MealApi,
+    private val userId: Long
 ) :
     BaseRepository<Meal, Long>(dao, api.mealApiService) {
 
@@ -53,11 +54,13 @@ class MealRepository(
     }
 
     private suspend fun handlePayload(payload: ActionPayload<Meal, Long>) {
-        val meal: Meal = payload.data
-        when (payload.actionType) {
-            ActionType.SAVE -> _dao.save(meal)
-            ActionType.UPDATE -> _dao.update(meal)
-            ActionType.DELETE -> _dao.delete(meal)
+        if (payload.data.userId == userId) {
+            val meal: Meal = payload.data.entity
+            when (payload.actionType) {
+                ActionType.SAVE -> _dao.save(meal)
+                ActionType.UPDATE -> _dao.update(meal)
+                ActionType.DELETE -> _dao.delete(meal)
+            }
         }
     }
 }

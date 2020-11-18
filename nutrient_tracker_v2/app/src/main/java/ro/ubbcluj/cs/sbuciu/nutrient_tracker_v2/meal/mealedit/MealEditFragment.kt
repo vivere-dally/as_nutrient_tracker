@@ -1,5 +1,6 @@
 package ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.mealedit
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +14,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.meal_edit_fragment.*
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.R
-import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core.Moment
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core.TAG
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.Meal
 import java.time.Instant
@@ -30,8 +30,10 @@ class MealEditFragment : Fragment() {
     }
 
     private lateinit var viewModel: MealEditViewModel
+    private lateinit var viewModelFactory: MealEditViewModelFactory
     private var mealId: Long? = null
     private var meal: Meal? = null
+    private var userId: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,7 @@ class MealEditFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.v(TAG, "onActivityCreated")
+        userId = this.arguments?.get("userId").toString().toLong()
         onActivityCreatedSetup()
         mef_fab_save.setOnClickListener {
             constructMeal()
@@ -73,9 +76,12 @@ class MealEditFragment : Fragment() {
         }
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun onActivityCreatedSetup() {
-        viewModel = ViewModelProviders.of(this).get(MealEditViewModel::class.java)
+        viewModelFactory =
+            this.activity?.application?.let { MealEditViewModelFactory(it, userId) }!!
+        viewModel = viewModelFactory.create(MealEditViewModel::class.java)
 
         viewModel.action.executing.observe(viewLifecycleOwner, {
             Log.v(TAG, "onActivityCreatedSetup - executing")
@@ -149,7 +155,8 @@ class MealEditFragment : Fragment() {
             dateEpoch = null,
             eaten = mef_switch_eaten.isChecked,
             foods = mef_edit_text_foods.text.toString(),
-            price = mef_edit_text_price.text.toString().toFloat()
+            price = mef_edit_text_price.text.toString().toFloat(),
+            userId = null
         )
     }
 

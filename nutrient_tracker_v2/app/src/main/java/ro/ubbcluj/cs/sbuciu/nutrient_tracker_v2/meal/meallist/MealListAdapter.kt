@@ -21,7 +21,8 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 
 class MealListAdapter(
-    private val fragment: Fragment
+    private val fragment: Fragment,
+    private val userId: Long
 ) : RecyclerView.Adapter<MealListAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val dateAgo: TextView = view.mli_text_view_date_ago
@@ -46,6 +47,7 @@ class MealListAdapter(
             fragment.findNavController()
                 .navigate(R.id.action_MealListFragment_to_MealEditFragment, Bundle().apply {
                     putString(MealEditFragment.MEAL_ID, meal.id.toString())
+                    putString("userId", userId.toString())
                 })
         }
     }

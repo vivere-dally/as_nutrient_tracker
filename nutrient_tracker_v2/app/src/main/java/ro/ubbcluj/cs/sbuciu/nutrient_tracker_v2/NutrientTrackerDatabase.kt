@@ -8,12 +8,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core.authentication.Credentials
+import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core.authentication.core.CredentialsDao
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.Meal
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.core.MealDao
 
-@Database(entities = [Meal::class], version = 1, exportSchema = false)
+@Database(entities = [Meal::class, Credentials::class], version = 1, exportSchema = false)
 abstract class NutrientTrackerDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
+    abstract fun credentialsDao(): CredentialsDao
 
     companion object {
         @Volatile
@@ -44,6 +47,7 @@ abstract class NutrientTrackerDatabase : RoomDatabase() {
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
                         database.mealDao().delete()
+                        database.credentialsDao().delete()
                     }
                 }
             }

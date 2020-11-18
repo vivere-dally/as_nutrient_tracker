@@ -52,22 +52,6 @@ abstract class BaseRepository<E : BaseEntity<T>, T>(
         }
     }
 
-//    suspend fun delete(): Result<Boolean> {
-//        return try {
-//            val entities = _dao.get().value
-//            if (entities != null) {
-//                for (entity in entities) {
-//                    _api.delete(entity.id!!)
-//                }
-//            }
-//
-//            _dao.delete()
-//            return Result.Success(true)
-//        } catch (e: Exception) {
-//            Result.Error(e)
-//        }
-//    }
-
     abstract suspend fun delete(entityId: T): BaseResult<E>
 
     abstract fun get(entityId: T): LiveData<E>
