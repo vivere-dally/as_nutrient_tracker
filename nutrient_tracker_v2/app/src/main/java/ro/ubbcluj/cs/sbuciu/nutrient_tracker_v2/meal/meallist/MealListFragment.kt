@@ -3,18 +3,14 @@ package ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.meallist
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.meal_list_fragment.*
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.R
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core.TAG
-import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.mealedit.MealEditViewModelFactory
 
 class MealListFragment : Fragment() {
 
@@ -43,6 +39,10 @@ class MealListFragment : Fragment() {
             findNavController().navigate(R.id.action_MealListFragment_to_MealEditFragment, bundle)
         }
 
+        mlf_fab_logout.setOnClickListener {
+            Log.v(TAG, "onActivityCreated - logout")
+            viewModel.logout()
+        }
 
         userId = this.arguments?.get("userId").toString().toLong()
         onActivityCreatedSetup()
@@ -70,6 +70,14 @@ class MealListFragment : Fragment() {
             Log.v(TAG, "onActivityCreatedSetup - actionError")
             if (it != null) {
                 Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        viewModel.action.completed.observe(viewLifecycleOwner, {
+            Log.v(TAG, "onActivityCreatedSetup - completed")
+            if (it) {
+                Log.v(TAG, "onActivityCreatedSetup - completed - navigate back")
+                findNavController().navigate(R.id.action_MealListFragment_to_LoginFragment)
             }
         })
 

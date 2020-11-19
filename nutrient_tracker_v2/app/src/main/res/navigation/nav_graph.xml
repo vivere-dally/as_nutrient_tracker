@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_MealListFragment_to_MealEditFragment"
             app:destination="@+id/MealEditFragment" />
+        <action
+            android:id="@+id/action_MealListFragment_to_LoginFragment"
+            app:destination="@+id/LoginFragment"/>
     </fragment>
 
     <fragment

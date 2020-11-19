@@ -16,6 +16,12 @@ abstract class MealDao : BaseDao<Meal, Long> {
     @Query("SELECT * FROM meals WHERE id=:entityId")
     abstract fun get(entityId: Long): LiveData<Meal>
 
+    @Query("SELECT * FROM meals WHERE id=:entityId")
+    abstract fun getSynchronous(entityId: Long): Meal
+
     @Query("SELECT * FROM meals")
     abstract fun get(): LiveData<List<Meal>>
+
+    @Query("SELECT * FROM meals LIMIT :size OFFSET (:page * :size)")
+    abstract fun get(page: Int, size: Int): LiveData<List<Meal>>
 }

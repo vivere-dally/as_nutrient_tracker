@@ -22,6 +22,15 @@ class MealRepository(
         CoroutineScope(Dispatchers.Main).launch { channelListener() }
     }
 
+    suspend fun delete(): BaseResult<Boolean> {
+        return try {
+            (_dao as MealDao).delete()
+            BaseResult.Success(true)
+        } catch (e: Exception) {
+            BaseResult.Error(e)
+        }
+    }
+
     override suspend fun delete(entityId: Long): BaseResult<Meal> {
         return try {
             (_dao as MealDao).delete(entityId)
@@ -29,7 +38,13 @@ class MealRepository(
                 _api.delete(entityId)
             )
         } catch (e: Exception) {
-            BaseResult.Error(e)
+            try {
+                val meal = (_dao as MealDao).getSynchronous(entityId)
+                _dao.delete(entityId)
+                BaseResult.Success(meal)
+            } catch (e2: Exception) {
+                BaseResult.Error(e2)
+            }
         }
     }
 
@@ -43,13 +58,17 @@ class MealRepository(
 
     private suspend fun channelListener() {
         while (true) {
-            val payload = Gson()
-                .fromJson<ActionPayload<Meal, Long>>(
-                    api.eventChannel.receive(),
-                    genericType<ActionPayload<Meal, Long>>()
-                )
-            Log.d(TAG, "received $payload")
-            handlePayload(payload)
+            try {
+                val payload = Gson()
+                    .fromJson<ActionPayload<Meal, Long>>(
+                        api.eventChannel.receive(),
+                        genericType<ActionPayload<Meal, Long>>()
+                    )
+                Log.d(TAG, "received $payload")
+                handlePayload(payload)
+            } catch (e: Exception) {
+                break
+            }
         }
     }
 

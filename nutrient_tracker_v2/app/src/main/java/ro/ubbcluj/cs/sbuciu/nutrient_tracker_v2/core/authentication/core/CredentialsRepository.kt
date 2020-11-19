@@ -19,10 +19,10 @@ class CredentialsRepository(
         }
     }
 
-    suspend fun logout(credentials: Credentials): BaseResult<Boolean> {
+    suspend fun logout(): BaseResult<Boolean> {
         return try {
             authenticationApiService.logout()
-            credentialsDao.delete(credentials)
+            credentialsDao.delete()
             BaseResult.Success(true)
         } catch (e: Exception) {
             BaseResult.Error(e)

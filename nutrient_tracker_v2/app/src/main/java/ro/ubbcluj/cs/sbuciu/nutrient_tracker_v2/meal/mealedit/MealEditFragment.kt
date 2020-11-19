@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.meal_edit_fragment.*
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.R
@@ -18,8 +17,8 @@ import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core.TAG
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.Meal
 import java.time.Instant
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.util.*
 
 class MealEditFragment : Fragment() {
@@ -152,11 +151,11 @@ class MealEditFragment : Fragment() {
             id = mealId,
             comment = mef_edit_text_comment.text.toString(),
             date = date.toString(),
-            dateEpoch = null,
+            dateEpoch = date.toEpochSecond(OffsetDateTime.now().offset),
             eaten = mef_switch_eaten.isChecked,
             foods = mef_edit_text_foods.text.toString(),
             price = mef_edit_text_price.text.toString().toFloat(),
-            userId = null
+            userId = userId
         )
     }
 

@@ -1,12 +1,16 @@
 package ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core
 
 import androidx.lifecycle.LiveData
+import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.Meal
 import java.lang.Exception
+import java.util.*
 
 abstract class BaseRepository<E : BaseEntity<T>, T>(
     protected val _dao: BaseDao<E, T>,
     protected val _api: BaseApi<E, T>
 ) {
+
+    var entities: LiveData<List<E>>? = null
 
     suspend fun refresh(): BaseResult<Boolean> {
         return try {
@@ -17,7 +21,10 @@ abstract class BaseRepository<E : BaseEntity<T>, T>(
 
             BaseResult.Success(true)
         } catch (e: Exception) {
-            BaseResult.Error(e)
+            BaseResult.Success(true)
+//            BaseResult.Error(e)
+        } finally {
+            entities = get()
         }
     }
 
@@ -27,7 +34,13 @@ abstract class BaseRepository<E : BaseEntity<T>, T>(
             _dao.save(savedEntity)
             return BaseResult.Success(savedEntity)
         } catch (e: Exception) {
-            BaseResult.Error(e)
+            try {
+                entity.id = Random().nextLong() as T
+                _dao.save(entity)
+                return BaseResult.Success(entity)
+            } catch (e: Exception) {
+                BaseResult.Error(e)
+            }
         }
     }
 
@@ -37,7 +50,12 @@ abstract class BaseRepository<E : BaseEntity<T>, T>(
             _dao.update(updatedEntity)
             return BaseResult.Success(updatedEntity)
         } catch (e: Exception) {
-            BaseResult.Error(e)
+            try {
+                _dao.update(entity)
+                return BaseResult.Success(entity)
+            } catch (e: Exception) {
+                BaseResult.Error(e)
+            }
         }
     }
 
@@ -48,7 +66,12 @@ abstract class BaseRepository<E : BaseEntity<T>, T>(
                 _api.delete(entity.id!!)
             )
         } catch (e: Exception) {
-            BaseResult.Error(e)
+            try {
+                _dao.delete(entity)
+                BaseResult.Success(entity)
+            } catch (e: Exception) {
+                BaseResult.Error(e)
+            }
         }
     }
 
