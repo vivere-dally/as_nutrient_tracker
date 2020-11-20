@@ -47,7 +47,6 @@ abstract class NutrientTrackerDatabase : RoomDatabase() {
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
                         database.mealDao().delete()
-                        database.credentialsDao().delete()
                     }
                 }
             }

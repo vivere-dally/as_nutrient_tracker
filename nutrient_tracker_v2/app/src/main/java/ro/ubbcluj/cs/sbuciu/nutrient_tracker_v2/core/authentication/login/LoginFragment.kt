@@ -79,5 +79,7 @@ class LoginFragment : Fragment() {
                 })
             }
         })
+
+        viewModel.defaultLogin()
     }
 }

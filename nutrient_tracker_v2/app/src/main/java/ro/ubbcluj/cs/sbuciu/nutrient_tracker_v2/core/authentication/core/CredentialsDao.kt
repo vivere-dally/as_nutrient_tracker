@@ -14,6 +14,9 @@ abstract class CredentialsDao : BaseDao<Credentials, Long> {
     @Query("SELECT * FROM credentials where id=:id")
     abstract fun get(id: Long): Credentials
 
+    @Query("SELECT * FROM credentials where NAME='LOGGED_USER'")
+    abstract fun getDefault(): Credentials?
+
     @Query("DELETE FROM credentials")
     abstract suspend fun delete()
 }

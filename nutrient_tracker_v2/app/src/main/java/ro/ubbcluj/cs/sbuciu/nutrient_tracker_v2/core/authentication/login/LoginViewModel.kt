@@ -32,6 +32,20 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             CredentialsRepository(credentialsDao, AuthenticationApi.authenticationApiService)
     }
 
+    fun defaultLogin() {
+        when(val result: BaseResult<Credentials> = credentialsRepository.defaultLogin()) {
+            is BaseResult.Success -> {
+                Log.d(TAG, "default login - success")
+                user = result.data
+                action.mutableCompleted.value = true
+            }
+
+            is BaseResult.Error -> {
+                Log.w(TAG, "default login - error", result.exception)
+            }
+        }
+    }
+
     fun login(credentials: Credentials) {
         viewModelScope.launch {
             Log.v(TAG, "login - start")

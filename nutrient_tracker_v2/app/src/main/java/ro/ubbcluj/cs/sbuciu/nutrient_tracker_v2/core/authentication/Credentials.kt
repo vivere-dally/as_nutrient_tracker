@@ -15,6 +15,9 @@ class Credentials(
     @ColumnInfo(name = "id")
     override var id: Long?,
 
+    @ColumnInfo(name = "NAME", defaultValue = "LOGGED_USER")
+    var NAME: String? = "LOGGED_USER",
+
     @ColumnInfo(name = "username")
     var username: String?,
 
@@ -42,6 +45,7 @@ class Credentials(
 
     constructor(credentials: SimpleCredentials) : this(
         credentials.id,
+        "LOGGED_USER",
         credentials.username,
         credentials.password,
         null

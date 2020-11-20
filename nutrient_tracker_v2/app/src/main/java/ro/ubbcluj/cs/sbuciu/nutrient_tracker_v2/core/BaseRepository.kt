@@ -1,5 +1,6 @@
 package ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.core
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import ro.ubbcluj.cs.sbuciu.nutrient_tracker_v2.meal.Meal
 import java.lang.Exception
@@ -21,6 +22,7 @@ abstract class BaseRepository<E : BaseEntity<T>, T>(
 
             BaseResult.Success(true)
         } catch (e: Exception) {
+            Log.w(TAG, e)
             BaseResult.Success(true)
 //            BaseResult.Error(e)
         } finally {
